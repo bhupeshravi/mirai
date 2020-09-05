@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Plant History | Mirai Farms</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			table tbody tr {
+				/* border: solid 1px;
+				border-left: 0;
+				border-right: 0; */
+				box-shadow: none
+				/* border-radius: 0px; */
+			}
+
+		</style>
+	</head>
+	<body onload="fetch_data()";>
+
+		<!-- Header -->
+			<header id="header" class="preview">
+				<div class="inner">
+					<div class="content">
+						<h1>Mirai Farms</h1>
+						<h2>The Future to Organic Farming</h2>
+					</div>
+					<a href="index.html" class="button hidden"><span>Let's Go</span></a>
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="preview">
+				<div class="inner">
+					<!-- <div class="image fit">
+						<img src="images/pic05.jpg" alt="" />
+					</div> -->
+					<div class="content" style="position: relative; text-align: center;">
+						<header>
+							<h2>Plant Growth Tracker</h2>
+						</header>
+						<div class="plant_name" style="text-align: left;">
+							<h1 id="plant_title" style="font-size: large; font-family: cursive; text-align: left; position: absolute;"></h1>
+							<h1 id="plant_date" style="font-size: large; font-family: cursive; text-align: right;">-</h1>
+						</div>
+						<table id="plants_list">
+							<tr>
+								<th>Day</th>
+								<th>Date</th>
+								<th>Remarks</th>
+								<th>Image</th>
+								<th>&#x2714; / &#x2716;</th>
+							</tr>
+						</table>
+						
+						
+						<!-- <button id="research_btn_add"  onclick="add_item()";>Add New Item</button>
+						<input class="input_items" id="plant_name" type="text" placeholder="Enter plant name" />
+						<input class="input_items" id="day_field" type="text" placeholder="Enter Day" />
+						<input class="input_items" id="date_field" placeholder="Enter Date" type="date" /> <br />
+						<button id="research_btn_submit" style="visibility: hidden;" onclick="submit_item()";>Submit</button> -->
+					</div>
+				</div>
+				<!-- <a href="research.html" class="nav previous"><span class="fa fa-chevron-left"></span></a>
+				<a href="research.html" class="nav next"><span class="fa fa-chevron-right"></span></a> -->
+			</div>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<a href="#" class="info fa fa-info-circle"><span>About</span></a>
+			<div class="inner">
+				<div class="content">
+					<h3>Mirai Farms - The Future</h3>
+					<p>We grow pesticide free organic produce in a controlled environmentusing automated monitoring system. We use vertical farming techniques  to increase the yield n times when compared to a typical farming method.	This method of farming retains the originality of the produce and makes 100% of the product consumable.</p>
+				</div>
+				<div class="copyright">
+					<h3>Follow me</h3>
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						<!-- <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li> -->
+					</ul>
+					Copyrights &copy; 2020 Mirai Farms 
+				</div>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+
+			<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+		https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
+
+	<script>
+	// Your web app's Firebase configuration
+
+	// var firebase = require('firebase/app');
+	// require('firebase/auth');
+	// require('firebase/database');
+
+	var firebaseConfig = {
+		apiKey: "AIzaSyDVA45LjS6QYgVbgXC7JvLGBKELLNDNarU",
+		authDomain: "miraifarms-4908d.firebaseapp.com",
+		databaseURL: "https://miraifarms-4908d.firebaseio.com",
+		projectId: "miraifarms-4908d",
+		storageBucket: "miraifarms-4908d.appspot.com",
+		messagingSenderId: "264715835683",
+		appId: "1:264715835683:web:2201b5e9ef4a4be488d496",
+		measurementId: "G-EGBL3G1F29"
+	};
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+	firebase.analytics();
+
+
+	function fetch_data(){
+		var title_date = "";
+		var title_day = "";
+		var plant_name = window.location.href.split("item=")[1];
+		document.getElementById('plant_title').textContent = plant_name;
+		var tableRef = document.getElementById('plants_list');
+		checkFlag = false;
+		
+		firebase.database().ref('research').once('value', function(fetch){
+			fetch.forEach(function (fetchChild)
+			{
+				var fetchChildKey = fetchChild.key;
+				var fetchChildData = fetchChild.val();
+				
+				if(fetchChildData['main'] == 'no' & fetchChildData['name'] == plant_name){
+					checkFlag = true;
+
+					var newRow   = tableRef.insertRow();
+					var newCell  = newRow.insertCell(0);
+					var newText  = document.createTextNode(fetchChildData['day']);
+					newCell.appendChild(newText);
+					title_day = fetchChildData['day']
+					var newCell  = newRow.insertCell(1);
+					var newText  = document.createTextNode(fetchChildData['date']);
+					newCell.appendChild(newText);
+					title_date = fetchChildData['date']
+					var newCell  = newRow.insertCell(2);
+					var newText  = document.createTextNode(fetchChildData['text']);
+					newCell.appendChild(newText);
+
+					var newCell  = newRow.insertCell(3);
+					var newText  = document.createTextNode(fetchChildData['image']);
+					newCell.appendChild(newText);
+					var newCell  = newRow.insertCell(4);
+					var input = document.createElement("input");
+					input.setAttribute('type', 'button');
+					input.setAttribute('value', 'X');
+					input.style.borderRadius='50%';
+					newCell.appendChild(input);
+				}
+
+			})
+			if(checkFlag == true){
+				document.getElementById('plant_date').textContent = "Day "+title_day+" | "+title_date
+
+
+
+			// 	firebase.database().ref('research').set({
+			// 	name: document.getElementById('plant_title').textContent,
+			// 	day: title_day,
+			// 	date: title_date,
+			// 	main: 'yes',
+			// })
+
+
+
+			}
+			var newRow   = tableRef.insertRow();
+			var newCell  = newRow.insertCell(0);
+			var input = document.createElement("input");
+			input.setAttribute('type', 'text');
+			if(title_day == ""){
+				input.setAttribute('placeholder', 'Day');
+			}
+			else{
+				input.setAttribute('value', parseInt(title_day)+1 );
+			}
+			newCell.appendChild(input);
+			var newCell  = newRow.insertCell(1);
+			var input = document.createElement("input");
+			input.setAttribute('type', 'date');
+			input.setAttribute('placeholder', 'Date');
+			newCell.appendChild(input);
+			var newCell  = newRow.insertCell(2);
+			var input = document.createElement("input");
+			input.setAttribute('type', 'text');
+			input.setAttribute('placeholder', 'Remarks');
+			newCell.appendChild(input);
+			var newCell  = newRow.insertCell(3);
+			var input = document.createElement("input");
+			input.setAttribute('type', 'text');
+			input.setAttribute('placeholder', 'Image');
+			newCell.appendChild(input);
+			var newCell  = newRow.insertCell(4);
+			var input = document.createElement("input");
+			input.onclick = function () { add_item(this)}
+			input.setAttribute('type', 'button');
+			input.setAttribute('value', 'submit');
+			newCell.appendChild(input);
+		});
+
+	}
+
+	function add_item(obj){
+		
+		if(obj.parentElement.parentElement.children[0].children[0].value == "" || obj.parentElement.parentElement.children[1].children[0].value == "" || obj.parentElement.parentElement.children[2].children[0].value == "" || obj.parentElement.parentElement.children[3].children[0].value == ""){
+			alert("Enter all fields")
+		}
+		else{
+			firebase.database().ref('research').push({
+				name: document.getElementById('plant_title').textContent,
+				day: obj.parentElement.parentElement.children[0].children[0].value,
+				date: obj.parentElement.parentElement.children[1].children[0].value,
+				main: 'no',
+				text: obj.parentElement.parentElement.children[2].children[0].value,
+				image: obj.parentElement.parentElement.children[3].children[0].value
+			})
+			location.reload();
+		}
+	}
+
+	</script>
+
+	</body>
+</html>

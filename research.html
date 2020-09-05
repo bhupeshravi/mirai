@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>R &amp; D | Mirai Farms</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body onload="fetch_data()";>
+
+		<!-- Header -->
+			<header id="header" class="preview">
+				<div class="inner">
+					<div class="content">
+						<h1>Mirai Farms</h1>
+						<h2>The Future to Organic Farming</h2>
+					</div>
+					<a href="index.html" class="button hidden"><span>Let's Go</span></a>
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="preview">
+				<div class="inner">
+					<!-- <div class="image fit">
+						<img src="images/pic05.jpg" alt="" />
+					</div> -->
+					<div class="content" style="position: relative; text-align: center;">
+						<header>
+							<h2>Research &amp; Development</h2>
+						</header>
+						<table id="plants_list">
+							
+						</table>
+						<button id="research_btn_add"  onclick="add_item()";>Add New Item</button>
+						<input class="input_items" id="plant_name" type="text" placeholder="Enter plant name" />
+						<input class="input_items" id="day_field" type="text" placeholder="Enter Day" />
+						<input class="input_items" id="date_field" placeholder="Enter Date" type="date" /> <br />
+						<button id="research_btn_submit" style="visibility: hidden;" onclick="submit_item()";>Submit</button>
+
+					</div>
+				</div>
+				<!-- <a href="research.html" class="nav previous"><span class="fa fa-chevron-left"></span></a>
+				<a href="research.html" class="nav next"><span class="fa fa-chevron-right"></span></a> -->
+			</div>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<a href="#" class="info fa fa-info-circle"><span>About</span></a>
+			<div class="inner">
+				<div class="content">
+					<h3>Mirai Farms - The Future</h3>
+					<p>We grow pesticide free organic produce in a controlled environmentusing automated monitoring system. We use vertical farming techniques  to increase the yield n times when compared to a typical farming method.	This method of farming retains the originality of the produce and makes 100% of the product consumable.</p>
+				</div>
+				<div class="copyright">
+					<h3>Follow me</h3>
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						<!-- <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li> -->
+					</ul>
+					Copyrights &copy; 2020 Mirai Farms 
+				</div>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+
+			<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+		https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
+
+	<script>
+	// Your web app's Firebase configuration
+
+	// var firebase = require('firebase/app');
+	// require('firebase/auth');
+	// require('firebase/database');
+
+	var firebaseConfig = {
+		apiKey: "AIzaSyDVA45LjS6QYgVbgXC7JvLGBKELLNDNarU",
+		authDomain: "miraifarms-4908d.firebaseapp.com",
+		databaseURL: "https://miraifarms-4908d.firebaseio.com",
+		projectId: "miraifarms-4908d",
+		storageBucket: "miraifarms-4908d.appspot.com",
+		messagingSenderId: "264715835683",
+		appId: "1:264715835683:web:2201b5e9ef4a4be488d496",
+		measurementId: "G-EGBL3G1F29"
+	};
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+	firebase.analytics();
+
+
+	function fetch_data(){
+		var tableRef = document.getElementById('plants_list');
+		var img = document.createElement('img');
+    	img.src = "images/pic5.jpg";
+		img.height = "25";
+
+		firebase.database().ref('research').once('value', function(fetch){
+			fetch.forEach(function (fetchChild)
+			{
+				var fetchChildKey = fetchChild.key;
+				var fetchChildData = fetchChild.val();
+				
+				if(fetchChildData['main'] == 'yes'){
+					var newRow   = tableRef.insertRow();
+					newRow.onclick = function () { plant_type(this);}
+					newRow.style.cursor='pointer'
+
+					var newCell  = newRow.insertCell(0);
+					newCell.appendChild(img);
+					var newCell  = newRow.insertCell(1);
+					var newText  = document.createTextNode(fetchChildData['name']);
+					newCell.appendChild(newText);
+					var newCell  = newRow.insertCell(2);
+					var newText  = document.createTextNode(fetchChildData['date']+" | Day  "+fetchChildData['day']);
+					newCell.appendChild(newText);
+				}
+			})
+			
+		});
+
+	}
+
+	function plant_type(obj){
+		location.href = "plant.html"+"?item="+obj.children[1].textContent;
+	}
+
+	function add_item(){
+		document.getElementById('plant_name').style.visibility = 'visible';
+		document.getElementById('day_field').style.visibility = 'visible';
+		document.getElementById('date_field').style.visibility = 'visible';
+		document.getElementById('research_btn_submit').style.visibility = 'visible';
+
+	}
+
+	function submit_item(){
+		if(document.getElementById('plant_name').value == "" || document.getElementById('day_field').value == "" || document.getElementById('date_field').value == ""){
+			alert("Please Enter all the details");
+		}
+		else{
+			firebase.database().ref('research').push({
+				name: document.getElementById('plant_name').value,
+				day: document.getElementById('day_field').value,
+				date: document.getElementById('date_field').value,
+				main: 'yes'
+			})
+			location.reload();
+		}
+		
+	}
+
+	</script>
+
+	</body>
+</html>
