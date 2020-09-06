@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
-	<body onload="check_prev();">
+	<body onload="check_prev()">
 
 		<!-- Header -->
 			<header id="header">
@@ -159,21 +159,11 @@
 });
 });
 });
-	// function check_prev(){
-	// 	if(window.location.href.split("item=")[1] == "back"){
-	// 		obj = this
-	// 		var t 		= jQuery(this),
-	// 					button 	= t.find('.button');
-
-	// 		t.toggleClass('hide');
-
-	// 				if ( t.hasClass('preview') ) {
-	// 					return true;
-	// 				} else {
-	// 					obj.preventDefault();
-	// 				}
-	// 	}
-	// }
+	function check_prev(){
+		if(window.location.href.split("item=")[1] == "home"){
+		document.getElementById('header').style.display='none';
+		}
+	}
 
 	</script>
 
