@@ -67,7 +67,7 @@
 			</div>
 
 		<!-- Footer -->
-		<footer id="footer">
+		<footer id="footer" style="width: 145%;">
 			<a href="#" class="info fa fa-info-circle"><span>About</span></a>
 			<div class="inner">
 				<div class="content">
@@ -163,6 +163,7 @@
 					input.setAttribute('type', 'button');
 					input.setAttribute('value', 'X');
 					input.style.borderRadius='50%';
+					input.style.background='none';
 					newCell.appendChild(input);
 				}
 
@@ -196,7 +197,13 @@
 			var newCell  = newRow.insertCell(1);
 			var input = document.createElement("input");
 			input.setAttribute('type', 'date');
-			input.setAttribute('placeholder', 'Date');
+			if(title_date == ""){
+				input.setAttribute('placeholder', 'Date');
+			}
+			else{
+				input.setAttribute('value', Date.parse(title_date)+1);
+			}
+			input.style.width='50px';
 			newCell.appendChild(input);
 			var newCell  = newRow.insertCell(2);
 			var input = document.createElement("input");
@@ -230,7 +237,8 @@
 				date: obj.parentElement.parentElement.children[1].children[0].value,
 				main: 'no',
 				text: obj.parentElement.parentElement.children[2].children[0].value,
-				image: obj.parentElement.parentElement.children[3].children[0].value
+				image: obj.parentElement.parentElement.children[3].children[0].value,
+				filename:  document.getElementById('plant_title').textContent+"_day_"+obj.parentElement.parentElement.children[0].children[0].value
 			})
 			location.reload();
 		}

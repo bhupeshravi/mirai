@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
-	<body>
+	<body onload="check_prev();">
 
 		<!-- Header -->
 			<header id="header">
@@ -17,11 +17,11 @@
 						<h2>The Future to Organic Farming</h2>
 						<input id="input_username" type="text" placeholder="Username" />
 						<input id="input_password" type="password" placeholder="Password" />
-						<a href="#" class="button big alt" ><span>Let's Go</span></a>
+						<a href="#" id="gobtn" class="button big alt" style="height: 2em; line-height: 33px; padding: 5px; padding-left: 5px; padding-right: 5px;" ><span>Let's Go</span></a>
 						<p id="error_message"></p>
 						<!-- <button onclick="login()";>Let's Go</button> -->
 					</div>
-					<a href="#" class="button hidden"><span>Let's Go</span></a>
+					<a href="#" id="gobtn" class="button hidden"><span>Let's Go</span></a>
 				</div>
 			</header>
 
@@ -159,7 +159,21 @@
 });
 });
 });
+	// function check_prev(){
+	// 	if(window.location.href.split("item=")[1] == "back"){
+	// 		obj = this
+	// 		var t 		= jQuery(this),
+	// 					button 	= t.find('.button');
 
+	// 		t.toggleClass('hide');
+
+	// 				if ( t.hasClass('preview') ) {
+	// 					return true;
+	// 				} else {
+	// 					obj.preventDefault();
+	// 				}
+	// 	}
+	// }
 
 	</script>
 

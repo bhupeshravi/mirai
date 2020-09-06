@@ -16,7 +16,7 @@
 						<h1>Mirai Farms</h1>
 						<h2>The Future to Organic Farming</h2>
 					</div>
-					<a href="index.html" class="button hidden"><span>Let's Go</span></a>
+					<a onclick="back_home()" class="button hidden"><span>Let's Go</span></a>
 				</div>
 			</header>
 
@@ -30,7 +30,7 @@
 						<header>
 							<h2>Research &amp; Development</h2>
 						</header>
-						<table id="plants_list">
+						<table id="plants_list" style="min-width: auto;">
 							
 						</table>
 						<button id="research_btn_add"  onclick="add_item()";>Add New Item</button>
@@ -162,6 +162,10 @@
 			location.reload();
 		}
 		
+	}
+
+	function back_home(){
+		location.href = "index.html?item=back";
 	}
 
 	</script>
