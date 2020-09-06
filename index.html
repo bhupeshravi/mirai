@@ -6,6 +6,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/addtohomescreen.css">
+		<script src="assets/js/addtohomescreen.js"></script>
 	</head>
 	<body onload="check_prev()">
 
@@ -163,6 +165,7 @@
 		if(window.location.href.split("item=")[1] == "home"){
 		document.getElementById('header').style.display='none';
 		}
+		addToHomescreen();
 	}
 
 	</script>
