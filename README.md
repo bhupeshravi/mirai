@@ -1,2 +1,2 @@
 # mirai
-A website to track growth progress
+A website to track all growth progress
